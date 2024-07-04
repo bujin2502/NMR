@@ -1,0 +1,24 @@
+Upute:
+
+Pokrenuti VjezbaRIP.imn (experiment) u Imunesovom grafičkom sučelju.
+
+Izlistati pokrenute eksperimente u FreeBCD konzoli naredbom himage -l
+Zabilježiti id eksperimenta (eid)
+
+Po potrebi zaustavljati i pokretati čvorove priloženim skriptama na način 
+start.sh ime_cvora@eid
+stop.sh ime_cvora@eid
+
+izlistavanje RIP-a
+a) iz komandne linije čvora (jaila): vtysh -c "show ip rip"
+b) iz komandne linije FreeBSD: himage ime_cvora@eid vtysh -c "show ip rip"
+
+izlistavanje tablice usmjeravanja:
+a) iz komandne linije čvora (jaila) netstat -4 -rn
+b) iz komandne linije FreeBSD: himage ime_cvora@eid netstat -4 -rn
+
+Eksperiment se može ugasiti i iz FreeBSD konzole:
+imunes -b -e eid
+
+
+

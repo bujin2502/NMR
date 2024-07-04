@@ -1,0 +1,88 @@
+#! /bin/sh
+
+os=`uname -s`;
+
+isOSlinux() {
+    if test $os = "Linux"; then
+	true;
+    else
+	false;
+    fi
+}
+
+isOSfreebsd() {
+    if test $os = "FreeBSD"; then
+	true;
+    else
+	false;
+    fi
+}
+
+# isEidRunning eid
+isEidRunning() {
+    err=`himage -l | awk '{print $1}' | grep -x $1` \
+	    || error "Ne mogu pronaci eksperiment $1. Mozda nije ni pokrenut."
+}
+
+# isNodeRunning node eid
+isNodeRunning() {
+    node=$1
+    if [ $# -ne 1 ]; then
+	isEidRunning $2
+    else
+	eid=`himage -e $1` \
+	    || error "Ne mogu pronaci cvor $1. Mozda simulacija nije pokrenuta."
+	echo "$eid"
+    fi
+}
+
+if test $# -eq 1; then
+    eid=$1
+    isEidRunning $eid
+else
+    eid=`isNodeRunning posluzitelj`
+    if [ $? -ne 0 ]; then
+	exit 1
+    fi
+fi
+
+if isOSfreebsd; then
+    kldstat -q -m ipfw
+    if test $? -ne 0
+    then
+        kldload ipfw
+        ipfw add 65534 allow ip from any to any
+    fi
+    kldload -n ipdivert
+    
+    svi="posluzitelj usmjernik pc NAT1 NAT2 \
+	posluzitelj1 pc1 pc2 pc3 \
+	posluzitelj2 pc4 pc5 pc6"
+    
+    for h in $svi
+    do
+        himage $h ipfw -q flush
+        himage $h ipfw -q add 65534 allow ip from any to any
+    done
+
+    himage NAT1 killall -q -9 natd
+    himage NAT1 natd -interface eth0 -redirect_port tcp 192.168.1.5:25 25
+    
+    himage NAT2 killall -q -9 natd
+    himage NAT2 natd -interface eth0 -redirect_port tcp 192.168.1.5:25 25
+    
+    # kreiranje korisnika na posluzitelju
+    hcp korisnik.conf posluzitelj:/
+    echo Stvaram korisnike na posluzitelju:
+    himage posluzitelj adduser -f /korisnik.conf
+    
+    hcp NAT_FreeBSD.sh NAT1:/
+    echo Pokrecem NAT1:
+    himage NAT1 /NAT_FreeBSD.sh
+   
+    hcp NAT_FreeBSD.sh NAT2:/
+    echo Pokrecem NAT2:
+    himage NAT2 /NAT_FreeBSD.sh
+fi 
+
+

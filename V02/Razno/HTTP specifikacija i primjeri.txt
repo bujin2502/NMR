@@ -1,0 +1,26 @@
+HTTP specifikacija i primjeri
+Uvjet dovršenosti
+
+HTTP 1.1 je specificiran u RFC 2616 (https://tools.ietf.org/html/rfc2616) (uz ispravke i nadopune kao što je označeno u zaglavlju dokumenta s poveznice).
+
+Od svibnja 2015. godine specificiran je i HTTP/2 u RFC 7540 (https://tools.ietf.org/html/rfc7540).
+
+
+Primjer HTTP zahtjeva prema 161.53.120.19 na TCP port 80:
+
+GET / HTTP/1.1
+Host: arka.foi.hr
+
+Primjer HTTP odgovora na zahtjev:
+
+HTTP/1.1 200 OK
+Date: Sat, 31 Oct 2015 19:01:27 GMT
+Server: Apache
+Last-Modified: Thu, 03 Sep 2009 07:28:44 GMT
+ETag: "1a83ff-27c-472a7555b6300"
+Accept-Ranges: bytes
+Content-Length: 636
+Content-Type: text/html
+
+...
+

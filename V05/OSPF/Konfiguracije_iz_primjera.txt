@@ -1,0 +1,436 @@
+RT 11
+configuration: generic
+/usr/local/bin/quaggaboot.sh
+
+interface eth0 
+ ip address 10.2.8.2/24 
+ ip ospf cost 2 
+! 
+interface eth1 
+ ip address 10.3.9.3/24 
+ ip ospf cost 1 
+! 
+router ospf
+ router-id 11.11.11.11 
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.2.8.0/24 area 2.2.2.2 
+ network 10.3.9.0/24 area 3.3.3.3 
+ area 2.2.2.2 virtual-link 10.10.10.10 
+!
+__________________________________________
+
+RT 10
+configuration: generic
+/usr/local/bin/quaggaboot.sh
+
+nterface eth0 
+ ip address 10.0.60.2/24 
+ ip ospf cost 5 
+! 
+interface eth1 
+ ip address 10.2.8.1/24 
+ ip ospf cost 3 
+! 
+interface eth2 
+ ip address 10.2.6.1/24 
+ ip ospf cost 1 
+ ip ospf priority 0 
+! 
+router ospf
+ router-id 10.10.10.10 
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.0.60.0/24 area 0.0.0.0 
+ network 10.2.6.0/24 area 2.2.2.2 
+ network 10.2.8.0/24 area 2.2.2.2 
+ area 2.2.2.2 virtual-link 11.11.11.11 
+!
+
+______________________________________
+
+RT 7
+configuration: generic
+/usr/local/bin/quaggaboot.sh
+
+interface eth0 
+ ip address 10.2.6.2/24 
+ ip ospf cost 1 
+! 
+interface eth1 
+ ip address 10.0.57.2/24 
+ ip ospf cost 6 
+! 
+router ospf
+ router-id 7.7.7.7 
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.0.57.0/24 area 0.0.0.0 
+ network 10.2.6.0/24 area 2.2.2.2 
+!
+
+________________________
+
+RT 6
+configuration: generic
+/usr/local/bin/quaggaboot.sh
+
+nterface eth0 
+ ip address 10.0.36.2/24 
+ ip ospf cost 6 
+! 
+interface eth1 
+ ip address 10.0.56.2/24 
+ ip ospf cost 6 
+! 
+interface eth2 
+ ip address 10.0.60.1/24 
+ ip ospf cost 7 
+! 
+router ospf
+ router-id 6.6.6.6 
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.0.36.0/24 area 0.0.0.0 
+ network 10.0.56.0/24 area 0.0.0.0 
+ network 10.0.60.0/24 area 0.0.0.0 
+!
+
+______________________________________
+
+RT 5
+Static routes: 192.168.1.0/24 10.0.57.2
+configuration: generic
+/usr/local/bin/quaggaboot.sh
+
+interface eth0 
+ ip address 10.0.45.2/24 
+ ip ospf cost 8 
+! 
+interface eth1 
+ ip address 10.0.56.1/24 
+ ip ospf cost 7 
+! 
+interface eth2 
+ ip address 10.0.57.1/24 
+ ip ospf cost 6 
+! 
+router ospf
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.0.56.0/24 area 0.0.0.0 
+ network 10.0.57.0/24 area 0.0.0.0 
+ network 10.0.45.0/24 area 0.0.0.0 
+! 
+ip route 192.168.1.0/24 10.0.57.2
+
+_______________________________________
+
+RT 3
+configuration: generic
+/usr/local/bin/quaggaboot.sh
+
+interface eth0
+ ip address 10.0.36.1/24 
+ ip ospf cost 8 
+! 
+interface eth1 
+ ip address 10.1.4.1/24 
+ ip ospf cost 2 
+! 
+interface eth2 
+ ip address 10.1.3.4/24 
+ ip ospf cost 1 
+! 
+router ospf
+ router-id 3.3.3.3 
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.1.3.0/24 area 1.1.1.1 
+ network 10.1.4.0/24 area 1.1.1.1 
+ network 10.0.36.0/24 area 0.0.0.0 
+!
+
+___________________________________
+
+RT 4
+configuration: generic
+/usr/local/bin/quaggaboot.sh
+
+interface eth0 
+ ip address 10.1.3.3/24 
+ ip ospf cost 1 
+! 
+interface eth1 
+ ip address 10.0.45.1/24 
+ ip ospf cost 8 
+! 
+router ospf
+ router-id 4.4.4.4 
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.1.3.0/24 area 1.1.1.1 
+ network 10.0.45.0/24 area 0.0.0.0 
+!
+
+_____________________________________
+
+RT 1
+configuration: generic
+/usr/local/bin/quaggaboot.sh
+
+interface eth0 
+ ip address 10.1.3.2/24 
+ ip ospf cost 1 
+! 
+interface eth1 
+ ip address 10.1.1.1/24 
+ ip ospf cost 3 
+! 
+router ospf
+ router-id 1.1.1.1 
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.1.1.0/24 area 1.1.1.1 
+ network 10.1.3.0/24 area 1.1.1.1 
+!
+
+__________________________________________
+
+RT 2
+configuration: generic
+/usr/local/bin/quaggaboot.sh
+
+interface eth0 
+ ip address 10.1.2.1/24 
+ ip ospf cost 3 
+! 
+interface eth1 
+ ip address 10.1.3.1/24 
+ ip ospf cost 1 
+ ip ospf priority 5 
+! 
+router ospf
+ router-id 2.2.2.2 
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.1.3.0/24 area 1.1.1.1 
+ network 10.1.2.0/24 area 1.1.1.1 
+!
+________________________________________
+
+RT 9
+configuration: generic
+/usr/local/bin/quaggaboot.sh
+
+interface eth0 
+ ip address 10.3.9.1/24 
+ ip ospf cost 1 
+! 
+interface eth1 
+ ip address 10.3.11.1/24 
+ ip ospf cost 3 
+! 
+router ospf
+ router-id 9.9.9.9 
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.3.11.0/24 area 3.3.3.3 
+ network 10.3.9.0/24 area 3.3.3.3 
+!
+
+________________________________________________
+
+RT 12
+configuration: generic
+/usr/local/bin/quaggaboot.
+
+interface eth0 
+ ip address 10.3.9.2/24 
+ ip ospf cost 1 
+! 
+interface eth1 
+ ip address 10.3.10.1/24 
+ ip ospf cost 2 
+! 
+router ospf
+ router-id 12.12.12.12 
+ redistribute static 
+ redistribute connected 
+ redistribute rip 
+ network 10.3.9.0/24 area 3.3.3.3 
+ network 10.3.10.0/24 area 3.3.3.3 
+!
+
+__________________________________________________
+
+Pokretacka skripta testa
+
+!/bin/sh
+
+. ../common/procedures.sh
+
+err=0
+slow=1
+
+eid=`imunes -b OSPF1.imn | awk '/Experiment/{print $4; exit}'`
+startCheck "$eid"
+
+Wait 40
+netDump router2@$eid eth2
+if [ $? -eq 0 ]; then
+    n=1
+    pingStatus=1
+    while [ $n -le 20 ] && [ $pingStatus -ne 0 ]; do
+        echo "Ping test $n / 20 ..."
+        pingCheck pc@$eid 10.0.4.10 2
+        pingStatus=$?
+        n=`expr $n + 1`
+    done
+    if [ $pingStatus -eq 0 ]; then
+	echo "########## router2@$eid routes"
+	himage -nt router2@$eid vtysh << __END__
+	show ip ospf route
+	show ipv6 ospf route
+	exit
+__END__
+	sleep 2
+	if [ $? -eq 0 ]; then
+            n=1
+            pingStatus=1
+            while [ $n -le 20 ] && [ $pingStatus -ne 0 ]; do
+                echo "Ping6 test $n / 20 ..."
+                ping6Check pc@$eid fc00:1::10 2
+                pingStatus=$?
+                n=`expr $n + 1`
+            done
+            if [ $pingStatus -eq 0 ]; then
+		sleep 2
+		echo ""
+		readDump router2@$eid eth2
+		if [ $? -ne 0 ]; then
+		    err=1
+		fi
+	    else
+		err=1
+	    fi
+	else
+	    err=1
+	fi
+
+	if [ $slow -eq 1 ]; then
+	    # stopNode router7@$eid 
+            echo "Drop all packets between router2 and router7 (BER=1)"
+            vlink -BER 1 -e $eid router2:router7
+	    if [ $? -eq 0 ]; then
+		Wait 5
+
+		echo ""
+		echo "########## router2@$eid routes after 5 seconds"
+		himage -nt router2@$eid vtysh << __END__ 
+		show ip ospf route
+		show ipv6 ospf route
+		exit
+__END__
+
+		#startNode router7@$eid
+                echo "Restore link between router2 and router7 (BER=0)"
+                vlink -BER 0 -e $eid router2:router7
+		if [ $? -eq 0 ]; then
+		    Wait 40
+                    n=1
+                    pingStatus=1
+                    while [ $n -le 20 ] && [ $pingStatus -ne 0 ]; do
+                        echo "Ping test2 $n / 20 ..."
+                        pingCheck pc@$eid 10.0.4.10 2
+                        pingStatus=$?
+                        n=`expr $n + 1`
+                    done
+                    if [ $pingStatus -eq 0 ]; then
+			sleep 4
+			readDump router2@$eid eth2
+		    else
+			err=1
+		    fi
+                    ping6Check pc@$eid fc00:1::10 2
+                    n=1
+                    pingStatus=1
+                    while [ $n -le 20 ] && [ $pingStatus -ne 0 ]; do
+                        echo "Ping6 test2 $n / 20 ..."
+                        ping6Check pc@$eid fc00:1::10 2
+                        pingStatus=$?
+                        n=`expr $n + 1`
+                    done
+                    if [ $pingStatus -eq 0 ]; then
+			sleep 4
+			readDump router2@$eid eth2
+		    else
+			err=1
+		    fi
+		else
+		    err=1
+		fi
+	    else
+		err=1
+	    fi
+	fi
+    else
+	err=1
+    fi
+else
+    err=1
+fi
+
+readDump router2@$eid eth2
+imunes -b -e $eid
+
+thereWereErrors $err
+
+_________________________________________
+
+Readme
+
+*******************
+* OSPF.imn
+*******************
+
+The purpose of the example is to show what happens in the "quiet" network - how routers exchange information about their neighbours.
+
+Follow the same steps as in RIP.imn. 
+
+Analyse the packets which are transmitted.
+
+*******************
+*  OSPF1.imn
+*******************
+
+The purpose of the example is to show what happens after the router goes down, and then goes back up.
+
+Follow the same steps as in RIP1.imn, using the following router commands:
+
+show ip route - shows all routes
+show ip ospf route - shows ospf routes
+show ip ospf interface - show info about router's interfaces
+show ip ospf neighbor - show info about router's neighbours
+
+Notice the dead time in "show ip ospf neighbor" and check what happens after the router7 is shut down. Look at how the dead time changes.
+
+
+*******************
+*  OSPF_RFC.imn
+*******************
+
+Network and configuration example from RFC 2328, "OSPF Version 2", figure 2, page 19.
+http://www.ietf.org/rfc/rfc2328.txt
+
+
